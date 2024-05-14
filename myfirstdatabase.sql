@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 14, 2024 at 05:20 AM
+-- Generation Time: May 14, 2024 at 03:01 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -40,7 +40,13 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`id`, `username`, `comment_text`, `created_at`, `users_id`) VALUES
-(1, 'rein', 'This is a comment on a website!', '2024-05-14 11:09:49', 3);
+(1, 'Rein', 'This is a comment on a website!', '2024-05-14 11:09:49', 1),
+(2, 'Rein', 'This is another comment', '2024-05-14 20:51:36', 1),
+(3, 'Krossing', 'Commenting on this website is such a great thing', '2024-05-14 20:53:58', 3),
+(4, 'Krossing', 'This is a comment on a website!', '2024-05-14 20:54:22', 3),
+(5, 'BasseIsCool', 'Permand smermand!', '2024-05-14 20:55:15', 2),
+(6, 'BasseIsCool', 'I love food so much!', '2024-05-14 20:55:29', 2),
+(7, 'janedoe', 'Hi! My name is Jane!', '2024-05-14 20:55:59', 5);
 
 -- --------------------------------------------------------
 
@@ -62,8 +68,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `pwd`, `email`, `created_at`) VALUES
 (1, 'Rein', 'rein123', 'rein@gmail.com', '2024-05-14 11:08:25'),
-(2, 'Basse', 'basse123', 'basse@gmail.com', '2024-05-14 11:08:52'),
-(3, 'Krossing', 'dani123', 'dani@gmail.com', '2024-05-14 11:09:24');
+(2, 'BasseIsCool', '1234', 'BasseIsCool@gmail.com', '2024-05-14 11:08:52'),
+(3, 'Krossing', 'dani123', 'dani@gmail.com', '2024-05-14 11:09:24'),
+(5, 'janedoe', '1234', 'jane@gmail.com', '2024-05-14 15:53:20');
 
 --
 -- Indexes for dumped tables
@@ -90,13 +97,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables

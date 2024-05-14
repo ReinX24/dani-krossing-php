@@ -20,10 +20,16 @@ $users = $statement->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/main.css">
-    <title>Document</title>
+    <title>Index</title>
 </head>
 
 <body>
+
+    <form action="search.php" method="POST">
+        <label for="search">Search for user:</label>
+        <input type="text" name="usersearch" placeholder="search">
+        <button>Search</button>
+    </form>
 
     <h3>Signup</h3>
 
@@ -40,16 +46,17 @@ $users = $statement->fetchAll(PDO::FETCH_ASSOC);
         <input type="text" name="username" placeholder="Username">
         <input type="password" name="pwd" placeholder="Password">
         <input type="text" name="email" placeholder="E-Mail">
-        <button>Signup</button>
+        <input type="number" name="id" placeholder="ID">
+        <button>Update</button>
     </form>
 
     <h3>Delete account</h3>
 
-    <form action="includes/userupdate.inc.php" method="POST">
+    <form action="includes/userdelete.inc.php" method="POST">
         <input type="text" name="username" placeholder="Username">
         <input type="password" name="pwd" placeholder="Password">
-        <input type="text" name="email" placeholder="E-Mail">
-        <button>Signup</button>
+        <input type="number" name="id" placeholder="ID">
+        <button>Delete</button>
     </form>
 
     <hr>
