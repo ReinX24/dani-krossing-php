@@ -19,8 +19,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $statement = $pdo->prepare($query);
 
+        // Hashing the password
+        $options = [
+            "cost" => 12,
+        ];
+        $hashedPassword = password_hash($pwdSignup, PASSWORD_BCRYPT, $options);
+
         $statement->bindValue(":username", $username);
-        $statement->bindValue(":pwd", $pwdSignup);
+        $statement->bindValue(":pwd", $hashedPassword);
         $statement->bindValue(":email", $email);
 
         $statement->execute();

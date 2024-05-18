@@ -5,7 +5,7 @@ declare(strict_types=1);
 // Checking if the user sends a form using the POST method
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
-    $pwd = $_POST["pwd"];
+    $pwdSignup = $_POST["pwd"];
     $email = $_POST["email"];
     $id = $_POST["id"];
 
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $statement = $pdo->prepare($query);
 
         $statement->bindValue(":username", $username);
-        $statement->bindValue(":pwd", $pwd);
+        $statement->bindValue(":pwd", $pwdSignup);
         $statement->bindValue(":email", $email);
         $statement->bindValue(":id", $id);
 
