@@ -24,3 +24,8 @@ function is_email_registered(PDO $pdo, string $email): bool
 {
     return !empty(get_email($pdo, $email));
 }
+
+function create_user(PDO $pdo, string $username, string $pwd, string $email)
+{
+    set_user($pdo, $username, $pwd, $email);
+}

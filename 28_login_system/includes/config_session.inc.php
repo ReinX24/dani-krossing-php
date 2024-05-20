@@ -18,20 +18,46 @@ session_set_cookie_params([
 // Starting a session
 session_start();
 
-// Regenerating session id in our cookie every 30 minutes
-// Initializing the last_regeneration attribute
-if (!isset($_SESSION["last_regeneration"])) {
-    regenerate_session_id();
+if (isset($_SESSION["user_id"])) {
+    // Code that runs if the user is logged in
+    if (!isset($_SESSION["last_regeneration"])) {
+        regenerate_session_id_loggedin();
+    } else {
+        $interval = 60 * 30; // 30 minutes
+        if (time() - $_SESSION["last_regeneration"] >= $interval) {
+            regenerate_session_id_loggedin();
+        }
+    }
 } else {
-    $interval = 60 * 30; // 30 minutes
-    if (time() - $_SESSION["last_regeneration"] >= $interval) {
+    // Code that runs if the user is NOT logged in
+    // Regenerating session id in our cookie every 30 minutes
+    // Initializing the last_regeneration attribute
+    if (!isset($_SESSION["last_regeneration"])) {
         regenerate_session_id();
+    } else {
+        $interval = 60 * 30; // 30 minutes
+        if (time() - $_SESSION["last_regeneration"] >= $interval) {
+            regenerate_session_id();
+        }
     }
 }
 
 function regenerate_session_id()
 {
     // Regenerate session ID and regenerate lifetime
-    session_regenerate_id();
+    session_regenerate_id(true);
+    $_SESSION["last_regeneration"] = time();
+}
+
+function regenerate_session_id_loggedin()
+{
+    session_regenerate_id(true);
+    // After regenerating id, append the user id to the session id
+    // Creating a new session id
+    $user_id = $_SESSION["user_id"];
+    $new_session_id = session_create_id(); // created a session id
+    $session_id = $new_session_id . "_" . $user_id;
+    session_id($session_id); // setting a newly created session id
+
     $_SESSION["last_regeneration"] = time();
 }

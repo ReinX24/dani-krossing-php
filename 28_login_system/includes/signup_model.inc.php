@@ -26,3 +26,26 @@ function get_email(PDO $pdo, string $email)
     $result = $statement->fetch(PDO::FETCH_ASSOC);
     return $result;
 }
+
+function set_user(PDO $pdo, string $username, string $pwd, string $email)
+{
+    $insert_user_query =
+        "INSERT INTO
+            users (username, pwd, email)
+        VALUES
+            (:username, :pwd, :email);";
+
+    $statement = $pdo->prepare($insert_user_query);
+
+    // Hashing our password
+    $options = [
+        "cost" => 12
+    ];
+    $hashedPwd = password_hash($pwd, PASSWORD_BCRYPT, $options);
+
+    $statement->bindValue(":username", $username);
+    $statement->bindValue(":pwd", $hashedPwd);
+    $statement->bindValue(":email", $email);
+
+    $statement->execute();
+}
