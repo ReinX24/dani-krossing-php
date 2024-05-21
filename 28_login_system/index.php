@@ -22,10 +22,12 @@ $users = get_users($pdo);
 // ^For testing purposes only
 
 $signup_data = signup_inputs();
-$errors = check_signup_errors();
-$success_message = check_signup_success();
+$signup_errors = check_signup_errors();
+$signup_success_message = check_signup_success();
 
-$errors = check_login_errors();
+$login_errors = check_login_errors();
+$login_success_message = check_login_success();
+$username = get_username();
 ?>
 
 <!DOCTYPE html>
@@ -42,22 +44,51 @@ $errors = check_login_errors();
 <body>
     <div class="container">
 
-        <h2 class="my-4">Login</h2>
-        <form action="includes/login.inc.php" method="POST">
-            <div class="mb-3">
-                <label for="username" class="form-label">
-                    <h4>Username</h4>
-                </label>
-                <input type="text" name="username" placeholder="Username" class="form-control">
-            </div>
-            <div class="mb-3">
-                <label for="pwd" class="form-label">
-                    <h4>Password</h4>
-                </label>
-                <input type="password" name="pwd" placeholder="Password" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form>
+        <div class="mt-4">
+            <?php if (isset($username)) : ?>
+                <h1>You are logged in as <?= $username; ?></h1>
+            <?php else : ?>
+                <h1>You are not logged in</h1>
+            <?php endif; ?>
+        </div>
+
+        <hr>
+
+        <?php if (isset($username)) : ?>
+            <h2 class="my-4">Logout</h2>
+            <form action="includes/logout.inc.php" method="POST">
+                <button type="submit" class="btn btn-primary">Log out</button>
+            </form>
+        <?php endif; ?>
+
+        <?php if ($login_success_message !== "success") : ?>
+            <h2 class="my-4">Login</h2>
+            <form action="includes/login.inc.php" method="POST">
+                <div class="mb-3">
+                    <label for="username" class="form-label">
+                        <h4>Username</h4>
+                    </label>
+                    <input type="text" name="username" placeholder="Username" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="pwd" class="form-label">
+                        <h4>Password</h4>
+                    </label>
+                    <input type="password" name="pwd" placeholder="Password" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+        <?php endif; ?>
+
+        <?php if ($login_errors) : ?>
+            <?php foreach ($login_errors as $error) : ?>
+                <div class="alert alert-danger my-4">
+                    <?= $error ?>
+                </div>
+            <?php endforeach; ?>
+        <?php elseif ($login_success_message === "success") : ?>
+            <div class="alert alert-success my-4"><?= $login_success_message; ?></div>
+        <?php endif; ?>
 
         <hr>
 
@@ -86,17 +117,27 @@ $errors = check_login_errors();
             <button type="submit" class="btn btn-primary">Sign Up</button>
         </form>
 
-        <?php if ($errors) : ?>
-            <?php foreach ($errors as $error) : ?>
+        <?php if ($signup_errors) : ?>
+            <?php foreach ($signup_errors as $error) : ?>
                 <div class="alert alert-danger my-4">
                     <?= $error ?>
                 </div>
             <?php endforeach; ?>
-        <?php elseif ($success_message === "success") : ?>
-            <div class="alert alert-success my-4"><?= $success_message; ?></div>
+        <?php elseif ($signup_success_message === "success") : ?>
+            <div class="alert alert-success my-4"><?= $signup_success_message; ?></div>
         <?php endif; ?>
 
         <hr>
+
+        <?php if ($signup_errors) : ?>
+            <?php foreach ($signup_errors as $error) : ?>
+                <div class="alert alert-danger my-4">
+                    <?= $error ?>
+                </div>
+            <?php endforeach; ?>
+        <?php elseif ($signup_success_message === "success") : ?>
+            <div class="alert alert-success my-4"><?= $signup_success_message; ?></div>
+        <?php endif; ?>
 
         <table class="table">
             <thead>
@@ -110,11 +151,13 @@ $errors = check_login_errors();
             </thead>
             <tbody>
                 <?php foreach ($users as $user) : ?>
-                    <th scope="row"><?= $user["id"]; ?></th>
-                    <td><?= $user["username"]; ?></td>
-                    <td><?= $user["pwd"]; ?></td>
-                    <td><?= $user["email"]; ?></td>
-                    <td><?= $user["created_at"]; ?></td>
+                    <tr>
+                        <th scope="row"><?= $user["id"]; ?></th>
+                        <td><?= $user["username"]; ?></td>
+                        <td><?= $user["pwd"]; ?></td>
+                        <td><?= $user["email"]; ?></td>
+                        <td><?= $user["created_at"]; ?></td>
+                    </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>

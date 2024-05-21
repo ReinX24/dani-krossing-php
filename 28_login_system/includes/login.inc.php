@@ -12,10 +12,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         require_once "login_model.inc.php";
         require_once "login_controller.inc.php";
 
-        $errors = [];
+        $signup_errors = [];
 
         if (is_input_empty($username, $pwd)) {
-            $errors["empty_input_error"] = "Fill in all fields!";
+            $signup_errors["empty_input_error"] = "Fill in all fields!";
         }
 
         // Get the user in the database using their username
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         // Checking if the user actually exists
         if (is_username_wrong($result)) {
-            $errors["login_error"] = "Incorrect login info!";
+            $signup_errors["login_error"] = "Incorrect login info!";
         }
 
         // Checks if the user exists and if the password is wrong
@@ -31,13 +31,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             !is_username_wrong($result) &&
             is_password_wrong($pwd, $result["pwd"])
         ) {
-            $errors["login_error"] = "Incorrect login info!";
+            $signup_errors["login_error"] = "Incorrect login info!";
         }
 
         require_once "config_session.inc.php"; // starts a session
 
-        if ($errors) {
-            $_SESSION["errors_login"] = $errors;
+        if ($signup_errors) {
+            $_SESSION["errors_login"] = $signup_errors;
 
             header("Location: ../index.php");
             die();
@@ -48,7 +48,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $session_id = $new_session_id . "_" . $result["id"];
             session_id($session_id); // setting a newly created session id
 
-            $_SESSION["user_id"] = $result["username"];
+            $_SESSION["user_id"] = $result["id"];
+            $_SESSION["username"] = htmlspecialchars($result["username"]);
+            $_SESSION["last_regeneration"] = time();
+
+            header("Location: ../index.php?login=success");
+
+            $statement = null;
+            $pdo = null;
+
+            die();
         }
     } catch (PDOException $e) {
         die("Connection failed: " . $e->getMessage());
