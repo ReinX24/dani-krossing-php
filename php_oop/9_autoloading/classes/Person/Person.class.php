@@ -19,4 +19,14 @@ class Person
     {
         return "$this->name is $this->age years old!";
     }
+
+    public function setName(string $new_name)
+    {
+        $this->name = $new_name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
 }

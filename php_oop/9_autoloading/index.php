@@ -1,5 +1,10 @@
 <?php
+
+declare(strict_types=1);
 require_once "includes/autoloader.inc.php";
+
+use Person\Person;
+
 ?>
 
 <!DOCTYPE html>
@@ -14,13 +19,20 @@ require_once "includes/autoloader.inc.php";
 <body>
 
     <?php
-    $person_one = new Person\Person("Rein", 20);
-    echo $person_one->getPerson();
+    try {
+        $person_one = new Person("Rein", 20);
+        $person_one->setName("Rain");
+        echo $person_one->getName();
+    } catch (TypeError $e) {
+        echo "Error: " . $e->getMessage();
+    }
+    // $person_one = new Person\Person("Rein", 20);
+    // echo $person_one->getPerson();
 
-    echo "<br>";
+    // echo "<br>";
 
-    $house_one = new House("Johndoeroad", 12);
-    echo $house_one->getAddress();
+    // $house_one = new House("Johndoeroad", 12);
+    // echo $house_one->getAddress();
     ?>
 
 </body>
