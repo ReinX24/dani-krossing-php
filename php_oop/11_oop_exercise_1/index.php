@@ -25,6 +25,7 @@
         </form>
 
         <section>
+            <h2><?= "Result: " . $_GET["result"] ?? ""; ?></h2>
         </section>
     </main>
 
