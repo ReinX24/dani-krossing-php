@@ -15,7 +15,8 @@ require_once "includes/class-autoload.inc.php";
     <?php
     $testObj = new Test();
     // $testObj->getUsers();
-    $testObj->getUsersStmt("Daniel", "Nielsen");
+    // $testObj->getUsersStmt("Daniel", "Nielsen");
+    // $testObj->insertUserStmt("John", "Doe", "1984-03-02");
     ?>
 </body>
 
