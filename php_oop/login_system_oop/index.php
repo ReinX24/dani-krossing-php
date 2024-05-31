@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +22,14 @@
     </header>
 
     <main class="container">
+
+        <?php if (isset($_SESSION["user_id"])) : ?>
+            <section>
+                <h1>Welcome <?= $_SESSION["user_uid"] ?>!</h1>
+                <a href="includes/logout.inc.php"><button>Logout</button></a>
+            </section>
+        <?php endif; ?>
+
         <hr>
         <section>
             <h4>Sign Up</h4>
@@ -37,7 +45,7 @@
         <hr>
         <section>
             <h4>Login</h4>
-            <form action="inlcudes/login.inc.php" method="POST">
+            <form action="includes/login.inc.php" method="POST">
                 <input type="text" name="uid" placeholder="Username">
                 <input type="password" name="pwd" placeholder="Password">
 
