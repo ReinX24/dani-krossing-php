@@ -29,7 +29,7 @@ class SignupController extends SignupModel
         if (!empty($this->check_empty_inputs())) {
             $_SESSION["empty_input_errors"] = $this->check_empty_inputs();
         } else {
-            unset($_SERVER["empty_input_error"]);
+            unset($_SESSION["empty_input_errors"]);
         }
 
         if ($this->is_uid_invalid()) {
@@ -54,8 +54,27 @@ class SignupController extends SignupModel
             unset($_SESSION["password_mismatch_error"]);
         }
 
-        // TODO: add error checking for existing user in database
+        if ($this->user_already_exists()) {
+            $_SESSION["user_exists_error"] = "User already exists!";
+        } else {
+            unset($_SESSION["user_exists_error"]);
+        }
 
+        // If there are no errors, add the user to the database
+        if (
+            !isset($_SESSION["empty_input_errors"])
+            && !isset($_SESSION["uid_invalid_error"])
+            && !isset($_SESSION["email_invalid_error"])
+            && !isset($_SESSION["password_mismatch_error"])
+            && !isset($_SESSION["user_exists_error"])
+        ) {
+            $_SESSION["signup_success"] = "Signup successful!";
+            $this->add_user($this->uid, $this->email, $this->password);
+            header("Location: ../index.php");
+            exit();
+        }
+
+        // Return to the index with errors
         header("Location: ../index.php");
         exit();
     }
@@ -106,6 +125,6 @@ class SignupController extends SignupModel
     // Checks if the user already exists within our database
     private function user_already_exists()
     {
-        $this->get_user($this->uid, $this->email);
+        return $this->get_user($this->uid, $this->email);
     }
 }

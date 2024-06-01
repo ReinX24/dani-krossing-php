@@ -7,7 +7,7 @@ class Database
     private string $host_name = "localhost";
     private string $user = "root";
     private string $password = "";
-    private string $database_name = "ooplogi";
+    private string $database_name = "ooplogin";
 
     protected function connect_database()
     {
