@@ -2,7 +2,12 @@
 
 declare(strict_types=1);
 
-class SignupController
+/*
+    SignupController
+        This class is responsible to handling the form data from our index
+*/
+
+class SignupController extends SignupModel
 {
     private string $uid;
     private string $email;
@@ -41,6 +46,16 @@ class SignupController
             unset($_SESSION["email_invalid_error"]);
         }
 
+        if ($this->are_passwords_mismatched()) {
+            $_SESSION["password_mismatch_error"] = "Passwords are not the same!";
+            unset($_SESSION["empty_input_errors"]["password_empty_error"]);
+            unset($_SESSION["empty_input_errors"]["password_repeat_empty_error"]);
+        } else {
+            unset($_SESSION["password_mismatch_error"]);
+        }
+
+        // TODO: add error checking for existing user in database
+
         header("Location: ../index.php");
         exit();
     }
@@ -71,12 +86,26 @@ class SignupController
     // Function that checks if the username or uid is valid (alphanumeric)
     private function is_uid_invalid(): bool
     {
-        return !preg_match("/^[a-zA-Z0-9]*$/", $this->uid);
+        return !empty($this->uid) && !preg_match("/^[a-zA-Z0-9]*$/", $this->uid);
     }
 
     // Checks if the email is a valid email
     private function is_email_invalid(): bool
     {
         return !empty($this->email) && !filter_var($this->email, FILTER_VALIDATE_EMAIL);
+    }
+
+    // Checks if the passwords are the same
+    private function are_passwords_mismatched()
+    {
+        return !empty($this->password) &&
+            !empty($this->password_repeat) &&
+            $this->password !== $this->password_repeat;
+    }
+
+    // Checks if the user already exists within our database
+    private function user_already_exists()
+    {
+        $this->get_user($this->uid, $this->email);
     }
 }

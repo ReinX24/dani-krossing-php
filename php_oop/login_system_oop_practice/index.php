@@ -7,8 +7,12 @@ $empty_email_error = $_SESSION["empty_input_errors"]["email_empty_error"] ?? "";
 $empty_password_error = $_SESSION["empty_input_errors"]["password_empty_error"] ?? "";
 $empty_password_repeat_error = $_SESSION["empty_input_errors"]["password_repeat_empty_error"] ?? "";
 
+// var_dump($_SESSION["empty_input_errors"]);
+
 $invalid_uid_error = $_SESSION["uid_invalid_error"] ?? "";
 $invalid_email_error = $_SESSION["email_invalid_error"] ?? "";
+
+$passwords_mismatch_error = $_SESSION["password_mismatch_error"] ?? "";
 
 ?>
 <!DOCTYPE html>
@@ -59,6 +63,7 @@ $invalid_email_error = $_SESSION["email_invalid_error"] ?? "";
             <label for="password">Password</label>
             <input type="password" name="password" placeholder="Password">
             <p><?= $empty_password_error; ?></p>
+            <p><?= $passwords_mismatch_error; ?></p>
 
             <label for="password_repeat">Repeat Password</label>
             <input type="password" name="password_repeat" placeholder="Password Repeat">

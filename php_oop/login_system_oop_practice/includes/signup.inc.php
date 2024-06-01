@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once "../classes/Database.classes.php";
+require_once "../classes/SignupModel.classes.php";
 require_once "../classes/SignupController.classes.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
