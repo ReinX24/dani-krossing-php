@@ -34,11 +34,9 @@ class LoginController extends LoginModel
             && !isset($_SESSION["wrong_password_message"])
         ) {
             $_SESSION["login_success"] = "Login successful!";
-            $_SESSION["login_uid_or_email"] = $this->uid_or_email;
 
-            $login_view = new LoginView();
-            $user_information = $login_view->get_user_information();
-            // TODO: add login credentials to a session
+            $user_information = $this->get_user($this->uid_or_email);
+            $_SESSION["current_user_information"] = $user_information;
             header("Location: ../logged_in.php");
         } else {
             header("Location: ../index.php");
