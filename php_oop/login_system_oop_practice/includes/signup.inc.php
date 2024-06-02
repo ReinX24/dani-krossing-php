@@ -15,5 +15,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $signup_controller = new SignupController($uid, $email, $password, $password_repeat);
 
-    $signup_controller->singup_user();
+    $signup_controller->signup_user();
 }

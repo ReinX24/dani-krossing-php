@@ -22,7 +22,7 @@ class SignupController extends SignupModel
         $this->password_repeat = $password_repeat;
     }
 
-    public function singup_user()
+    public function signup_user()
     {
         session_start();
 
@@ -70,8 +70,6 @@ class SignupController extends SignupModel
         ) {
             $_SESSION["signup_success"] = "Signup successful!";
             $this->add_user($this->uid, $this->email, $this->password);
-            header("Location: ../index.php");
-            exit();
         }
 
         // Return to the index with errors

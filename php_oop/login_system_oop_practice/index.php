@@ -2,6 +2,8 @@
 
 session_start();
 
+// Signup Page errors
+
 $empty_uid_error = $_SESSION["empty_input_errors"]["uid_empty_error"] ?? "";
 $empty_email_error = $_SESSION["empty_input_errors"]["email_empty_error"] ?? "";
 $empty_password_error = $_SESSION["empty_input_errors"]["password_empty_error"] ?? "";
@@ -10,16 +12,20 @@ $empty_password_repeat_error = $_SESSION["empty_input_errors"]["password_repeat_
 // var_dump($_SESSION["empty_input_errors"]);
 
 $invalid_uid_error = $_SESSION["uid_invalid_error"] ?? "";
-
 $invalid_email_error = $_SESSION["email_invalid_error"] ?? "";
-
 $passwords_mismatch_error = $_SESSION["password_mismatch_error"] ?? "";
 
 // var_dump($_SESSION["user_exists_error"]);
 
 $user_exists_error = $_SESSION["user_exists_error"] ?? "";
 
-$success_message = $_SESSION["signup_success"] ?? "";
+$signup_success_message = $_SESSION["signup_success"] ?? "";
+
+// Login Page errors
+
+$empty_login_uid_or_email_error = $_SESSION["empty_input_errors"]["empty_uid_or_email_error"] ?? "";
+$empty_login_password_error = $_SESSION["empty_input_errors"]["empty_password_error"] ?? "";
+$wrong_login_password_message = $_SESSION["wrong_password_message"] ?? "";
 
 // Destroy all session variables and the current session
 session_destroy();
@@ -104,7 +110,7 @@ unset($_SESSION);
                 </div>
 
                 <h1 class="mb-3 text-danger"><?= $user_exists_error; ?></h1>
-                <h1 class="mb-3 text-success"><?= $success_message; ?></h1>
+                <h1 class="mb-3 text-success"><?= $signup_success_message; ?></h1>
 
                 <button type="submit" value="submit" class="btn btn-primary">Sign Up</button>
             </form>
@@ -112,12 +118,29 @@ unset($_SESSION);
 
         <div class="container mt-3">
             <hr>
-            <form action="" method="POST">
+            <form action="includes/login.inc.php" method="POST">
                 <h1>Login</h1>
                 <div class="mb-3">
-                    <label for="uid" class="form-label">Name</label>
-                    <input type="text" class="form-control" name="uid" placeholder="Enter username">
+                    <label for="uid_or_email" class="form-label">Username / Email</label>
+                    <input type="text" class="form-control" name="uid_or_email" placeholder="Enter username or email">
+                    <?php if ($empty_login_uid_or_email_error) : ?>
+                        <p class="form-text text-danger"><?= $empty_login_uid_or_email_error; ?></p>
+                    <?php endif; ?>
                 </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" placeholder="Enter password">
+                    <?php if ($empty_login_password_error) : ?>
+                        <p class="form-text text-danger"><?= $empty_login_password_error; ?></p>
+                    <?php endif; ?>
+                    <?php if ($wrong_login_password_message) : ?>
+                        <p class="form-text text-danger"><?= $wrong_login_password_message; ?></p>
+                    <?php endif; ?>
+
+                </div>
+
+                <h1 class="mb-3 text-success"><?= $login_success_message; ?></h1>
 
                 <button type="submit" value="submit" class="btn btn-primary">Login</button>
             </form>
