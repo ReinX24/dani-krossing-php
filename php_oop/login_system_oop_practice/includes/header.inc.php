@@ -25,7 +25,7 @@
                     </ul>
                     <div>
                         <?php if (isset($_SESSION["login_success"])) : ?>
-                            <a href="../logout.php" class="btn btn-primary">Logout</a>
+                            <a href="logout.php" class="btn btn-primary">Logout</a>
                         <?php endif; ?>
                     </div>
                 </div>

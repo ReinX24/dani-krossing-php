@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+require_once "../includes/autoloader.inc.php";
+
+use Database;
+
 class LoginModel extends Database
 {
     protected function get_user_password(string $uid_or_email)

@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+require_once "../includes/autoloader.inc.php";
+
+use LoginModel;
+
 class LoginController extends LoginModel
 {
     private string $uid_or_email;
@@ -62,7 +66,6 @@ class LoginController extends LoginModel
     private function mismatched_passwords()
     {
         $stored_password = $this->get_user_password($this->uid_or_email);
-        // Checks if the passwords are the same
-        return !empty($this->password) && !password_verify($this->password, $stored_password["users_pwd"]);
+        return !empty($this->uid_or_email) && !empty($this->password) && !password_verify($this->password, $stored_password["users_pwd"]);
     }
 }
